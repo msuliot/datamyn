@@ -27,8 +27,9 @@ def create_prompt(query, res):
 
 # main function
 def main(query, namespace):
+    os.system('clear')
     # print("Start: Main function")
-    # print(f"Query: {query}")
+    print(f"Query: {query}\n")
     # print(f"Namespace: {namespace}")
 
     # Initialize models and services
