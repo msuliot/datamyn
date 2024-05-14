@@ -43,7 +43,7 @@ def main(query, namespace):
     response_pine = index.query(
         namespace=namespace,
         vector=embed.data[0].embedding, 
-        top_k=10, 
+        top_k=7, 
         include_metadata=True, 
         include_values=False,
     )
@@ -86,7 +86,7 @@ def main(query, namespace):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="A simple command line RAG model")
+    parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
     parser.add_argument('query', type=str, help='This is the query to be answered')
     args = parser.parse_args()
     
