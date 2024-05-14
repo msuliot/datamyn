@@ -1,0 +1,5 @@
+git+https://github.com/msuliot/package.helpers.git
+git+https://github.com/msuliot/package.utils.git
+git+https://github.com/msuliot/package.data.loaders.git
+python-dotenv
+gradio
