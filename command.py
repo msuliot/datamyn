@@ -44,7 +44,7 @@ def main(query, namespace):
     response_pine = index.query(
         namespace=namespace,
         vector=embed.data[0].embedding, 
-        top_k=7, 
+        top_k=10, 
         include_metadata=True, 
         include_values=False,
     )
