@@ -29,8 +29,8 @@ def create_prompt(query, res):
 def main(query, namespace):
     os.system('clear')
     # print("Start: Main function")
-    print(f"Query: {query}\n")
-    # print(f"Namespace: {namespace}")
+    print(f"Query: {query}")
+    print(f"Namespace: {namespace}\n")
 
     # Initialize models and services
     model_for_openai_embedding = "text-embedding-3-small"
@@ -89,6 +89,11 @@ def main(query, namespace):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
     parser.add_argument('query', type=str, help='This is the query to be answered')
+    parser.add_argument('--namespace', type=str, help='An optional parameter to specify the namespace for the Pinecone index. Default is "demo24"')
     args = parser.parse_args()
-    
-    main(args.query, "demo24")
+    print(args.namespace)
+
+    if args.namespace:
+        main(args.query, args.namespace)
+    else:
+        main(args.query, "demo24")
