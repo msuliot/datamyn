@@ -32,8 +32,9 @@ def main(namespace, system_prompt, query):
     # Initialize models and services
     model_for_openai_embedding = "text-embedding-3-small"
     model_for_openai_chat = "gpt-4o"
+    database = "blades-of-grass-demo"
     pc = Pinecone(api_key=env.pinecone_key)
-    index = pc.Index("blades-of-grass-demo")
+    index = pc.Index(database)
     oaie = oai.openai_embeddings(env.openai_key, model_for_openai_embedding)
     embed = oaie.execute(query)
 
@@ -63,9 +64,9 @@ def main(namespace, system_prompt, query):
 
         # Retrieve chunk text from MongoDB
         with MongoDatabase(env.mongo_uri) as client:
-            chunk_text = client.get_document_by_chunk_id("blades-of-grass-demo", namespace, chunk_id)
+            chunk_text = client.get_document_by_chunk_id(database, namespace, chunk_id)
             text = chunk_text[0]['data'][0]['text']
-            context.append(text)
+            context.append(f"SourceFile: {source_file}, Content: {text}")
             
             # Store source file name and text content in source_info
             source_info.append({

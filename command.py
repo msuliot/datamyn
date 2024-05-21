@@ -35,7 +35,7 @@ def main(query, namespace):
     # Initialize models and services
     model_for_openai_embedding = "text-embedding-3-small"
     model_for_openai_chat = "gpt-4o"
-    database = "blades-of-grass-demo"
+    database = "blades-of-grass"
     pc = Pinecone(api_key=env.pinecone_key)
     index = pc.Index(database)
     print("Pinecone Index:" + database)
@@ -73,7 +73,7 @@ def main(query, namespace):
         with MongoDatabase(env.mongo_uri) as client:
             chunk_text = client.get_document_by_chunk_id(database, namespace, chunk_id)
             text = chunk_text[0]['data'][0]['text']
-            context.append(text)
+            context.append(f"SourceFile: {source_file}, Content: {text}")
             
             # Store source file name and text content in source_info
             source_info.append({
@@ -93,13 +93,15 @@ def main(query, namespace):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
-    parser.add_argument('query', type=str, help='This is the query to be answered')
-    parser.add_argument('--namespace', type=str, help='An optional parameter to specify the namespace for the Pinecone index. Default is "demo24"')
-    args = parser.parse_args()
-    print(args.namespace)
+    main("who is micahel suliot", "demo24")
 
-    if args.namespace:
-        main(args.query, args.namespace)
-    else:
-        main(args.query, "demo24")
+    # parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
+    # parser.add_argument('query', type=str, help='This is the query to be answered')
+    # parser.add_argument('--namespace', type=str, help='An optional parameter to specify the namespace for the Pinecone index. Default is "demo24"')
+    # args = parser.parse_args()
+    # print(args.namespace)
+
+    # if args.namespace:
+    #     main(args.query, args.namespace)
+    # else:
+    #     main(args.query, "demo24")
