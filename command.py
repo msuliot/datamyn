@@ -93,15 +93,15 @@ def main(query, namespace):
 
 if __name__ == "__main__":
 
-    main("who is micahel suliot", "demo24")
 
-    # parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
-    # parser.add_argument('query', type=str, help='This is the query to be answered')
-    # parser.add_argument('--namespace', type=str, help='An optional parameter to specify the namespace for the Pinecone index. Default is "demo24"')
-    # args = parser.parse_args()
-    # print(args.namespace)
 
-    # if args.namespace:
-    #     main(args.query, args.namespace)
-    # else:
-    #     main(args.query, "demo24")
+    parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
+    parser.add_argument('query', type=str, help='This is the query to be answered')
+    parser.add_argument('--namespace', type=str, help='An optional parameter to specify the namespace for the Pinecone index. Default is "demo24"')
+    args = parser.parse_args()
+    print(args.namespace)
+
+    if args.namespace:
+        main(args.query, args.namespace)
+    else:
+        main(args.query, "demo24")
