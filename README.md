@@ -1,5 +1,6 @@
 # DATAMYN - Blades of Grass - AI Assistant
-## Blades of Grass is an AI assistant application that leverages OpenAI, Pinecone, MongoDB, and Gradio to answer user queries based on a specified context. It integrates with these services to retrieve relevant information and provide accurate and context-aware responses.
+
+Blades of Grass is an AI assistant application that leverages OpenAI, Pinecone, MongoDB, and Gradio to answer user queries based on a specified context. It integrates with these services to retrieve relevant information and provide accurate and context-aware responses.
 
 Key Features
 - Dynamic Query Handling: Processes user queries to generate relevant responses using OpenAI's language model.
