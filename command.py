@@ -30,13 +30,18 @@ def main(query, namespace):
     os.system('clear')
     # print("Start: Main function")
     print(f"Query: {query}")
-    print(f"Namespace: {namespace}\n")
+    print(f"Namespace: {namespace}")
 
     # Initialize models and services
     model_for_openai_embedding = "text-embedding-3-small"
     model_for_openai_chat = "gpt-4o"
+    database = "blades-of-grass-demo"
     pc = Pinecone(api_key=env.pinecone_key)
-    index = pc.Index("blades-of-grass")
+    index = pc.Index(database)
+    print("Pinecone Index:" + database)
+    print("OpenAI Embedding Model: text-embedding-3-small")
+    print("OpenAI Chat Model: gpt-4o\n")
+
     oaie = oai.openai_embeddings(env.openai_key, model_for_openai_embedding)
     embed = oaie.execute(query)
 
@@ -44,7 +49,7 @@ def main(query, namespace):
     response_pine = index.query(
         namespace=namespace,
         vector=embed.data[0].embedding, 
-        top_k=10, 
+        top_k=5, 
         include_metadata=True, 
         include_values=False,
     )
@@ -66,7 +71,7 @@ def main(query, namespace):
 
         # Retrieve chunk text from MongoDB
         with MongoDatabase(env.mongo_uri) as client:
-            chunk_text = client.get_document_by_chunk_id("blades-of-grass", namespace, chunk_id)
+            chunk_text = client.get_document_by_chunk_id(database, namespace, chunk_id)
             text = chunk_text[0]['data'][0]['text']
             context.append(text)
             
@@ -87,6 +92,7 @@ def main(query, namespace):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(description="A simple command line RAG model. Make sure to use quotes around your query.")
     parser.add_argument('query', type=str, help='This is the query to be answered')
     parser.add_argument('--namespace', type=str, help='An optional parameter to specify the namespace for the Pinecone index. Default is "demo24"')

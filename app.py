@@ -33,7 +33,7 @@ def main(namespace, system_prompt, query):
     model_for_openai_embedding = "text-embedding-3-small"
     model_for_openai_chat = "gpt-4o"
     pc = Pinecone(api_key=env.pinecone_key)
-    index = pc.Index("blades-of-grass")
+    index = pc.Index("blades-of-grass-demo")
     oaie = oai.openai_embeddings(env.openai_key, model_for_openai_embedding)
     embed = oaie.execute(query)
 
@@ -41,7 +41,7 @@ def main(namespace, system_prompt, query):
     response_pine = index.query(
         namespace=namespace,
         vector=embed.data[0].embedding, 
-        top_k=10, 
+        top_k=5, 
         include_metadata=True, 
         include_values=False,
     )
@@ -63,7 +63,7 @@ def main(namespace, system_prompt, query):
 
         # Retrieve chunk text from MongoDB
         with MongoDatabase(env.mongo_uri) as client:
-            chunk_text = client.get_document_by_chunk_id("blades-of-grass", namespace, chunk_id)
+            chunk_text = client.get_document_by_chunk_id("blades-of-grass-demo", namespace, chunk_id)
             text = chunk_text[0]['data'][0]['text']
             context.append(text)
             
@@ -100,12 +100,12 @@ dropdown_namespaces = ["demo24", "demo74"]
 gr.close_all()
 
 with gr.Blocks() as demo:
-    gr.Markdown("# Blades of Grass")
+    gr.Markdown("# Blades of Grass Demo")
     gr.Markdown("Blades of Grass is an AI Assistant that leverages OpenAI, Pinecone, MongoDB and your files to answer your questions.")
     
     with gr.Row():
         with gr.Column():
-            namespace = gr.Dropdown(label="Choose a namespace", choices=dropdown_namespaces, value="armls")
+            namespace = gr.Dropdown(label="Choose a namespace", choices=dropdown_namespaces, value="demo24")
             system_prompt = gr.Textbox(label="System Prompt", lines=3, value="I'm an AI crafted with honesty, professionalism, empathy, and positivity, ready to assist based on the content you provided and my training. If I don't know something, I'll be upfront about it.  Respond as if I am a customer asking the question.")
             user_prompt = gr.Textbox(label="Hello, my name is Aiden, your AI Assistant. How can I help?", lines=8, placeholder="")
             submit_btn = gr.Button("Submit")
