@@ -88,7 +88,7 @@ def main(query, namespace):
 
     oaic.add_message("system", create_system_prompt())
     oaic.add_message("user", prompt)
-    oaic.execute_stream()
+    oaic.execute_stream_markup()
 
 
 if __name__ == "__main__":
